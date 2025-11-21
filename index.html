@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darwin Simplicio - Senior Programmer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0fccce;
+            --accent-light: #4deeea;
+            --text: #e6e6e6;
+            --text-light: #b8b8b8;
+            --card-bg: #22223a;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(15,204,206,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .profile-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(15, 204, 206, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(15, 204, 206, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(15, 204, 206, 0); }
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--card-bg);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(15, 204, 206, 0.2);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            color: var(--text-light);
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(34, 34, 58, 0.7);
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-5px);
+            background: rgba(15, 204, 206, 0.2);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            font-size: 2.2rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .section-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Experience Styles */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            padding: 30px 0;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 50px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 50px;
+        }
+        
+        .timeline-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: var(--transition);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        .timeline-content:after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: var(--card-bg);
+            transform: rotate(45deg);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content:after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content:after {
+            left: -10px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            top: 40px;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 0 5px var(--secondary);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+        }
+        
+        .job-title {
+            font-size: 1.4rem;
+            color: var(--accent-light);
+            margin-bottom: 8px;
+        }
+        
+        .company {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .period {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(15, 204, 206, 0.1);
+            border-radius: 20px;
+        }
+        
+        .key-wins {
+            list-style-type: none;
+        }
+        
+        .key-wins li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.5;
+        }
+        
+        .key-wins li:before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .skill-category {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border-top: 4px solid transparent;
+        }
+        
+        .skill-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-top: 4px solid var(--accent);
+        }
+        
+        .skill-category h3 {
+            color: var(--accent-light);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.4rem;
+        }
+        
+        .skill-list {
+            list-style-type: none;
+        }
+        
+        .skill-list li {
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+        
+        .skill-list li:hover {
+            padding-left: 10px;
+            color: var(--accent-light);
+        }
+        
+        .skill-list li i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        /* Education & References */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .info-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-card h3 {
+            color: var(--accent-light);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .reference-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .reference-item:hover {
+            background: rgba(15, 204, 206, 0.1);
+        }
+        
+        .reference-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+        
+        .reference-position {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--text-light);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 10px 15px;
+            padding: 8px 15px;
+            background: rgba(15, 204, 206, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Floating elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(15, 204, 206, 0.03);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline:before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 0;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-dot {
+                left: 22px !important;
+            }
+            
+            .timeline-content:after {
+                display: none;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%;"></div>
+        <div class="floating-element" style="width: 70px; height: 70px; top: 80%; left: 10%;"></div>
+        <div class="floating-element" style="width: 120px; height: 120px; top: 30%; left: 85%;"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="profile-container">
+                    <img src="Professional CV Resume.pdf" alt="Darwin Simplicio" class="profile-img" onerror="this.src='dp.png'">
+                </div>
+                <h1>Darwin Simplicio</h1>
+                <p class="tagline">Senior Programmer & Systems Architect</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+6391 8337 5243</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>darwinsimplicio20@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Caloocan City, Philippines</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Work Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="section-content">
+                <div class="timeline">
+                    <!-- Lead Programmer -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Lead Programmer</h3>
+                            <p class="company"><i class="fas fa-building"></i> Mayer Steel Pipe Corporation | Valenzuela City</p>
+                            <span class="period">2023 - Present</span>
+                            <ul class="key-wins">
+                                <li>Led company-wide software initiatives across manufacturing, logistics, inventory, and QC.</li>
+                                <li>Modernized legacy internal systems, reducing downtime and manual effort.</li>
+                                <li>Mentored junior developers and established coding standards.</li>
+                                <li>Developed internal tools that saved time and increased operational visibility.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Dialer Tech -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Dialer Tech</h3>
+                            <p class="company"><i class="fas fa-building"></i> Coveyleads | Work From Home (US Based)</p>
+                            <span class="period">2020 - 2023</span>
+                            <ul class="key-wins">
+                                <li>Managed and optimized VictDial systems across multiple centers, ensuring stable and efficient dialing operations.</li>
+                                <li>Monitored live agent calls, enforced call-handling standards, and coordinated with TLs for real-time performance issues.</li>
+                                <li>Controlled dialer pacing and call volume settings to maintain high productivity and consistent lead flow.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Senior Programmer -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Senior Programmer</h3>
+                            <p class="company"><i class="fas fa-building"></i> Netex Development Co., Inc. | Parafiaque</p>
+                            <span class="period">2019 - 2020</span>
+                            <ul class="key-wins">
+                                <li>Built and enhanced enterprise systems for manufacturing operations.</li>
+                                <li>Optimized database queries, significantly improving performance in mission-critical modules.</li>
+                                <li>Drove technical decisions for several core internal applications.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Freelance Programmer -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Freelance Programmer</h3>
+                            <span class="period">2018 - 2019</span>
+                            <ul class="key-wins">
+                                <li>Delivered custom software solutions for various clients in fast-paced environments.</li>
+                                <li>Managed full project cycle independently; requirements → development → deployment → maintenance.</li>
+                                <li>Strengthened adaptability working across different industries and problem types.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Senior Programmer -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3 class="job-title">Senior Programmer</h3>
+                            <p class="company"><i class="fas fa-building"></i> Powermind Business Solutions Inc. | Mandaluyong City</p>
+                            <span class="period">2014 - 2018</span>
+                            <ul class="key-wins">
+                                <li>Developed business applications used across client operations.</li>
+                                <li>Built stable, maintainable codebases that reduced long-term technical debt.</li>
+                                <li>Served as go-to troubleshooter for urgent system issues.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Strengths Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Expertise</h2>
+            <div class="section-content">
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h3><i class="fas fa-code"></i> Development Skills</h3>
+                        <ul class="skill-list">
+                            <li><i class="fab fa-microsoft"></i> VB.NET & C# Development</li>
+                            <li><i class="fas fa-database"></i> SQL & Database Optimization</li>
+                            <li><i class="fab fa-js-square"></i> JavaScript & Frontend Development</li>
+                            <li><i class="fab fa-php"></i> PHP Backend Development</li>
+                            <li><i class="fas fa-cogs"></i> API Integrations & ERP Customization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3><i class="fas fa-layer-group"></i> Systems & Architecture</h3>
+                        <ul class="skill-list">
+                            <li><i class="fas fa-sitemap"></i> Systems Architecture Design</li>
+                            <li><i class="fas fa-bolt"></i> Enterprise Automation</li>
+                            <li><i class="fas fa-tachometer-alt"></i> Performance Optimization</li>
+                            <li><i class="fas fa-expand-arrows-alt"></i> Scalable Solutions</li>
+                            <li><i class="fas fa-tools"></i> Internal Tool Development</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3><i class="fas fa-user-tie"></i> Professional Skills</h3>
+                        <ul class="skill-list">
+                            <li><i class="fas fa-users"></i> Technical Leadership & Mentorship</li>
+                            <li><i class="fas fa-project-diagram"></i> Full Project Lifecycle Management</li>
+                            <li><i class="fas fa-bug"></i> Problem Solving & Debugging</li>
+                            <li><i class="fas fa-rocket"></i> Operational Efficiency</li>
+                            <li><i class="fas fa-code-branch"></i> Clean & Maintainable Code</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & References Section -->
+    <section id="education-references">
+        <div class="container">
+            <div class="section-content">
+                <div class="info-cards">
+                    <!-- Education -->
+                    <div class="info-card">
+                        <h2 class="section-title">Education</h2>
+                        <h3><i class="fas fa-graduation-cap"></i> Bachelor of Science in Computer Science</h3>
+                        <p>University of Caloocan City Main Campus</p>
+                        <span class="period">2010 - 2014</span>
+                    </div>
+                    
+                    <!-- References -->
+                    <div class="info-card">
+                        <h2 class="section-title">References</h2>
+                        <div class="reference-item">
+                            <p class="reference-name">Harumi Kobayashi</p>
+                            <p class="reference-position">CEO, Wardiere Inc.</p>
+                            <p><i class="fas fa-phone"></i> 123-456-7890</p>
+                            <p><i class="fas fa-envelope"></i> hello@reallygreatsite.com</p>
+                        </div>
+                        <div class="reference-item">
+                            <p class="reference-name">Bailey Dupont</p>
+                            <p class="reference-position">CEO, Wardiere Inc.</p>
+                            <p><i class="fas fa-phone"></i> 123-456-7890</p>
+                            <p><i class="fas fa-envelope"></i> hello@reallygreatsite.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="tech-badges">
+                <span class="tech-badge"><i class="fab fa-microsoft"></i> VB.NET</span>
+                <span class="tech-badge"><i class="fas fa-database"></i> SQL</span>
+                <span class="tech-badge"><i class="fab fa-js-square"></i> JavaScript</span>
+                <span class="tech-badge"><i class="fab fa-php"></i> PHP</span>
+                <span class="tech-badge"><i class="fas fa-cogs"></i> C#</span>
+            </div>
+            <p>&copy; 2023 Darwin Simplicio. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">Senior Programmer & Systems Architect</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animation for timeline items
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+            
+            // Create additional floating elements with JavaScript
+            const floatingContainer = document.querySelector('.floating-elements');
+            for (let i = 0; i < 8; i++) {
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
+                const size = Math.random() * 100 + 50;
+                element.style.width = `${size}px`;
+                element.style.height = `${size}px`;
+                element.style.top = `${Math.random() * 100}%`;
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.animationDuration = `${Math.random() * 30 + 20}s`;
+                element.style.animationDelay = `${Math.random() * 5}s`;
+                floatingContainer.appendChild(element);
+            }
+            
+            // Add typing effect to tagline
+            const tagline = document.querySelector('.tagline');
+            const originalText = tagline.textContent;
+            tagline.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    tagline.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            // Start typing effect after a short delay
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
+</body>
+</html>
